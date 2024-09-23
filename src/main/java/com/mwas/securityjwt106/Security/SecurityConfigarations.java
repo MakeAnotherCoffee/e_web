@@ -1,22 +1,53 @@
 package com.mwas.securityjwt106.Security;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.beans.Customizer;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfigarations {
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+    @Autowired
+    private UserDetails userDetails;
+    @Autowired
+    private SuccessHandler successHandler;
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .formLogin(httpSecurityFormLoginConfigurer ->httpSecurityFormLoginConfigurer
-                        .loginPage("/login")
+                .csrf(AbstractHttpConfigurer::disable)
+
+                .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer
+                        .successHandler(successHandler)
+
                         .permitAll())
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/admin/**").hasRole("ADMIN");
-                    registry.requestMatchers("/user/**");
-                    registry.requestMatchers("/","/home").permitAll();
+                    registry.requestMatchers("/user/**").hasRole("USER");
+                    registry.requestMatchers("/registers","/").permitAll();
+                    registry.anyRequest().authenticated();
                 }).build();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+
+    }
+    @Bean
+    DaoAuthenticationProvider daoAuthenticationProvider(){
+        DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetails);
+        provider.setPasswordEncoder(passwordEncoder());
+        return  provider;
+
     }
 }
