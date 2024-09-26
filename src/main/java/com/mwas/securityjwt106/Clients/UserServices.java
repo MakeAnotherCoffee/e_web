@@ -24,6 +24,7 @@ public class UserServices {
 
     public Web_Users registerUser(Web_Users webUsers) {
         webUsers.setPassword(PasswordEncoder.encode(webUsers.getPassword()));
+        webUsers.setRoles("USER");
         return userRepository.save(webUsers);
     }
 
