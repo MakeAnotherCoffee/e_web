@@ -23,16 +23,20 @@ public class SecurityConfigarations {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+
                 .csrf(AbstractHttpConfigurer::disable)
 
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer
+                        .loginPage("/signin")
                         .successHandler(successHandler)
 
                         .permitAll())
+
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/admin/**").hasRole("ADMIN");
-                    registry.requestMatchers("/user/**").hasRole("USER");
-                    registry.requestMatchers("/registers","/").permitAll();
+                    registry.requestMatchers("/user/**","/download_file").hasRole("USER");
+                    registry.requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll();
+                    registry.requestMatchers("/registers","/","/addFile","/deleteFile","/signin","/signup").permitAll();
                     registry.anyRequest().authenticated();
                 }).build();
     }

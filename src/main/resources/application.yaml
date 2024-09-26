@@ -12,3 +12,9 @@ spring:
   properties:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQLDialect
+  thymeleaf:
+      enabled: true
+      prefix: classpath:/templates/  # Correct path for Thymeleaf templates
+      suffix: .html
+      mode: HTML
+      cache: false

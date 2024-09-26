@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="header">
+
+    <div class="logo">
+        <h1>Edu<span>C</span>lub</h1>
+    </div>
+    <div class="nav">
+        <a href="">Home</a>
+        <a href="">About</a>
+        <a href="">Projects</a>
+        <a href="">Services</a>
+        <a href="">Contacts</a>
+
+    </div>
+
+    <div class="bott">
+        <button onclick="window.location.href='/signin';">Login</button>
+
+
+    </div>
+
+</div>
+
+<!-- <hr> -->
+
+<div class="main">
+    <div class="heroes">
+        <div class="text">
+            <h1>Learning Has<br><span>Never</span>  Been<br>
+                So Easy.</h1>
+            <p>"An innovative e-learning platform offering extensive resources for engaging, interactive education."</p>
+            <button>GET STARTED!</button>
+        </div>
+        <div class="pic">
+            <img th:src="@{/images/show.png}" alt="pic" srcset="">
+            <button id="open-chat-button" class="open-button" onclick="toggleChat()">
+            </button>
+        </div>
+
+    </div>
+
+</div>
+<div class="chat-container" id="chat-container">
+    <div class="chat-header">
+        <h2>Edu Bot
+        </h2>
+        <button onclick="toggleChat()">&times;</button>
+    </div>
+    <div class="chat-body" id="chat-body">
+        <div class="bot-message message">Hello! How can I help you today?</div>
+    </div>
+    <div class="input-container">
+        <input type="text" class="input-field" id="user-input" placeholder="Type your message...">
+        <button class="input-button" onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+
+<div class="offer-section">
+    <h2>What We Are All About</h2>
+    <div class="offer-container">
+        <div class="offer-item">
+            <div class="offer-icon">📚</div>
+            <h3>Past Papers & Study Guides</h3>
+            <p>Practice with real exam papers and comprehensive study materials.</p>
+        </div>
+        <div class="offer-item">
+            <div class="offer-icon">🔍</div>
+            <h3>Personalized Learning</h3>
+            <p>Receive smart recommendations based on your learning needs.</p>
+        </div>
+        <div class="offer-item">
+            <div class="offer-icon">💡</div>
+            <h3>Progress Tracking</h3>
+            <p>Track your improvement with quizzes, badges, and personalized insights.</p>
+        </div>
+        <div class="offer-item">
+            <div class="offer-icon">👥</div>
+            <h3>Join Our Community</h3>
+            <p>Engage with fellow learners and educators to enhance your knowledge.</p>
+        </div>
+    </div>
+    <a href="#" class="cta-btn">Explore Resources</a>
+</div>
+<div class="counter-section">
+    <h1>Transforming Education One Download at a Time</h1> <!-- Section Heading -->
+    <div class="counter-cards"> <!-- New wrapper for the cards -->
+        <div class="counter-card counter-card1">
+            <div class="counter-icon">📥</div>
+            <h2>Join the Knowledge Wave!</h2>
+            <span id="downloads">0</span>
+        </div>
+
+        <div class="counter-card counter-card2">
+            <div class="counter-icon">👥</div>
+            <h2>Join Our Growing Community!</h2>
+            <span id="users">0</span>
+        </div>
+
+        <div class="counter-card counter-card3">
+            <div class="counter-icon">🎓</div>
+            <h2>Expand Your Horizons with Free Learning!</h2>
+            <span id="courses">0</span>
+        </div>
+    </div>
+</div>
+
+<div class="testimonial-section">
+    <h2 class="testimonial-heading">What Our Learners Say</h2>
+    <div class="testimonial-container">
+        <!-- Testimonial 1 -->
+        <div class="testimonial-item">
+            <div class="avatar">
+                <img src="https://via.placeholder.com/80" alt="John Doe">
+            </div>
+            <div class="testimonial-content">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">"EduClub has transformed my learning experience! The courses are engaging and super easy to follow."</p>
+                <h3 class="testimonial-author">John Doe</h3>
+            </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testimonial-item">
+            <div class="avatar">
+                <img src="https://via.placeholder.com/80" alt="Jane Smith">
+            </div>
+            <div class="testimonial-content">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">"This platform is amazing! I never thought online education could be this effective."</p>
+                <h3 class="testimonial-author">Jane Smith</h3>
+            </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="testimonial-item">
+            <div class="avatar">
+                <img src="https://via.placeholder.com/80" alt="Michael Brown">
+            </div>
+            <div class="testimonial-content">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">"The user-friendly interface and rich content have really made a difference in my learning journey."</p>
+                <h3 class="testimonial-author">Michael Brown</h3>
+            </div>
+        </div>
+
+        <!-- Testimonial 4 -->
+        <div class="testimonial-item">
+            <div class="avatar">
+                <img src="https://via.placeholder.com/80" alt="Emily Davis">
+            </div>
+            <div class="testimonial-content">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">"I love the flexibility and the variety of courses. It's perfect for my busy schedule!"</p>
+                <h3 class="testimonial-author">Emily Davis</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="faq-section">
+    <h2 class="faq-heading">Frequently Asked Questions</h2>
+    <div class="faq-container">
+
+        <!-- FAQ 1 -->
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>What is EduClub?</h3>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>EduClub is a comprehensive e-learning platform designed to provide high-quality courses and resources for learners of all levels.</p>
+            </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>How do I sign up?</h3>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Signing up is simple! Click the "Sign Up" button on the top right, fill out the required information, and start learning immediately.</p>
+            </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>Are the courses free?</h3>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>EduClub offers a mix of free and premium courses. You can access high-quality free content or upgrade for more advanced material.</p>
+            </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>What support do I get?</h3>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>We offer 24/7 support through our help center, live chat, and comprehensive documentation to help you at every step of your learning journey.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<footer class="footer-section">
+    <div class="footer-container">
+        <div class="footer-newsletter">
+            <h3 class="newsletter-heading">Subscribe to Our Newsletter</h3>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required class="newsletter-input">
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+        </div>
+
+        <div class="footer-socials">
+            <h3 class="socials-heading">Follow Us</h3>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-copyright">
+        <p>&copy; 2024 EduClub. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    const chatContainer = document.getElementById("chat-container");
+    const openChatButton = document.getElementById("open-chat-button");
+    const chatBody = document.getElementById("chat-body");
+    const userInputField = document.getElementById("user-input");
+
+    function addMessageToChat(message, isBot) {
+        const messageElement = document.createElement("div");
+        messageElement.textContent = message;
+        messageElement.classList.add("message");
+        messageElement.classList.add(isBot ? "bot-message" : "user-message");
+        chatBody.appendChild(messageElement);
+        chatBody.scrollTop = chatBody.scrollHeight; // Scroll to bottom
+    }
+
+    function botResponse(userInput) {
+        let response = "";
+        userInput = userInput.toLowerCase().trim();
+
+        if (userInput.includes("purpose")) {
+            response = "This page helps users understand the use of a specific service.";
+        } else if (userInput.includes("functionality") || userInput.includes("features")) {
+            response = "The page provides various features such as downloads, user management, and free courses.";
+        } else if (userInput.includes("thank you") || userInput.includes("thanks")) {
+            response = "You're welcome! If you face any problems, please contact us at 0112769979.";
+        } else if (userInput.includes("hello")) {
+            response = "Hi there! How can I assist you today?";
+        } else if (userInput.includes("help")) {
+            response = "Sure, I'm here to help! You can ask me about the purpose and features of this page.";
+        } else {
+            response = "I'm sorry, I don't understand. You can ask about the purpose or functionality of the page.";
+        }
+
+        return response;
+    }
+
+    function sendMessage() {
+        const userMessage = userInputField.value.trim();
+        if (userMessage === "") return;
+
+        addMessageToChat(`You: ${userMessage}`, false);
+        const botReply = botResponse(userMessage);
+        addMessageToChat(`Edu Bot: ${botReply}`, true);
+
+        userInputField.value = ""; // Clear input field after sending message
+    }
+
+    function toggleChat() {
+        if (chatContainer.style.bottom === "-600px") {
+            chatContainer.style.bottom = "30px";
+            openChatButton.style.display = "none";
+        } else {
+            chatContainer.style.bottom = "-600px";
+            openChatButton.style.display = "block";
+        }
+    }
+
+    // Allow pressing Enter key to send message
+    userInputField.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            let downloads = 0;
+            let users = 0;
+            let courses = 0;
+
+            const maxDownloads = 100;
+            const maxUsers = 50;
+            const maxCourses = 20;
+
+            function updateCounters() {
+                if (downloads < maxDownloads) {
+                    downloads++;
+                }
+                if (users < maxUsers) {
+                    users++;
+                }
+                if (courses < maxCourses) {
+                    courses++;
+                }
+
+                document.getElementById("downloads").innerText = downloads;
+                document.getElementById("users").innerText = users;
+                document.getElementById("courses").innerText = courses;
+            }
+
+            setInterval(updateCounters, 100); // Update counters every second
+        });
+
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        const toggle = item.querySelector('.faq-toggle');
+
+        question.addEventListener('click', () => {
+            const isActive = answer.classList.contains('active');
+
+            // Close all other answers
+            faqItems.forEach(i => {
+                i.querySelector('.faq-answer').classList.remove('active');
+                i.querySelector('.faq-toggle').textContent = '+';
+            });
+
+            // Toggle the clicked FAQ
+            if (!isActive) {
+                answer.classList.add('active');
+                toggle.textContent = '-';
+            } else {
+                answer.classList.remove('active');
+                toggle.textContent = '+';
+            }
+        });
+    });
+
+
+</script>
+</body>
+</html>
