@@ -16,7 +16,6 @@ import java.util.Objects;
 
 @Service
 public class UserServices {
-
     @Autowired
     private PasswordEncoder PasswordEncoder;
     @Autowired
@@ -40,7 +39,6 @@ public class UserServices {
         if (!fileToDownload.exists()) {
             throw new FileNotFoundException("file not found Exception" + filename);
         }
-
                 return fileToDownload;
             }
 }

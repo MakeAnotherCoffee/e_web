@@ -33,10 +33,10 @@ public class SecurityConfigarations {
                         .permitAll())
 
                 .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/admin/**").hasRole("ADMIN");
+                    registry.requestMatchers("/admin/**","/addFile").hasRole("ADMIN");
                     registry.requestMatchers("/user/**","/download_file").hasRole("USER");
                     registry.requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll();
-                    registry.requestMatchers("/registers","/","/addFile","/deleteFile","/signin","/signup").permitAll();
+                    registry.requestMatchers("/registers","/","/deleteFile","/signin","/signup","/send").permitAll();
                     registry.anyRequest().authenticated();
                 }).build();
     }

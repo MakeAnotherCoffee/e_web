@@ -26,24 +26,32 @@ public class UserControllers {
     public String userPage() {
         return "user page";
     }
-
     public String downloadPage() {
         return "/download_file";
     }
-
     @GetMapping("")
     public String homePage() {
         return "index";
     }
-
-    @PostMapping("/signup")
-    public Web_Users register(@RequestBody Web_Users webUsers) {
-        return userServices.registerUser(webUsers);
+    @GetMapping("/signup")
+    public String SignupPage(){
+        return("signup");
     }
+
+
+
+    @PostMapping("/send")
+    public void register(@ModelAttribute Web_Users webUsers) {
+         userServices.registerUser(webUsers);
+    }
+
+
+
     @GetMapping("/signin")
     public String loginPage(){
         return "signin";
     }
+
     @GetMapping("/user/download/{fileName}")
     public ResponseEntity<Resource> downloadFromDir(@PathVariable String fileName) {
         try {
@@ -61,5 +69,4 @@ public class UserControllers {
             return ResponseEntity.notFound().build();
         }
     }
-
 }
