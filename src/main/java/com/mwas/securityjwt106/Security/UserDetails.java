@@ -35,9 +35,9 @@ public class UserDetails implements UserDetailsService {
     }
     private String[] getRoles(Web_Users userObj) {
         if (userObj == null) {
-            return new String[]{"ROLE_USER"}; // Ensure roles have ROLE_ prefix
+            return new String[]{"ROLE_USER"};
         } else {
-            return userObj.getRoles().split(",").stream()
+            return Arrays.stream(userObj.getRoles().split(","))
                     .map(role -> "ROLE_" + role) // Prefix roles
                     .toArray(String[]::new);
         }

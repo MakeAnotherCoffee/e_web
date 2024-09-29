@@ -1,7 +1,6 @@
 package com.mwas.securityjwt106.Admin;
 
 import com.mwas.securityjwt106.Clients.Web_Users;
-import com.mwas.securityjwt106.Security.UserDetails;
 import org.apache.tomcat.util.http.fileupload.InvalidFileNameException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,15 +12,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.security.Principal;
 import java.util.Objects;
-import lombok.Builder;
+
 @Service
 public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
     public static final String DIR="./AllFiles";
-    public void saveToDir(MultipartFile file) throws Exception{
+    public void saveToDir(MultipartFile file, Allfiles allfiles) throws Exception{
+        String username="";
         if(file==null){
             throw new Exception("file null Exception");
         }
@@ -34,6 +33,28 @@ public class AdminService {
             throw new InvalidFileNameException("invalid naming",fileToSave.getName());
         }
         Files.copy(file.getInputStream(),fileToSave.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+        //sep 29 2024 08:30
+        //getting necessary file Data
+
+        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null){
+            Object principal=authentication.getPrincipal();
+            if(principal instanceof Web_Users){
+                username=((Web_Users)principal).getUsername();
+            }else {
+                System.out.println("error");
+            }
+        }
+
+        int index=file.getOriginalFilename().indexOf('.');
+        String fileType=file.getOriginalFilename().substring(index+1);
+        allfiles.setFilename(file.getOriginalFilename());
+        allfiles.setType(fileType);
+        allfiles.setDescription(allfiles.getDescription());
+        allfiles.setUploadedBy(allfiles.getUploadedBy());
+        adminRepository.save(allfiles);
+
     }
 
     public void deleteFiles(String fileName) throws Exception{
@@ -45,26 +66,25 @@ public class AdminService {
         }
     }
 
-    public void storeFiledata(Allfiles allfiles, MultipartFile file) {
-   Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
-     String username="";
-     if (authentication != null){
-         Object principal =authentication.getPrincipal();
-         if(principal instanceof Web_Users){
-             username=((Web_Users)principal).getUsername();
-         }else{
-             System.out.println("error");
-         }
-     }
-       String name=file.getOriginalFilename();
-       int index=name.indexOf('.');
-       String type=name.substring(index+1);
-       allfiles.setFilename(name);
-       allfiles.setType(type);
-       allfiles.setUploadedBy(username);
-       adminRepository.save(allfiles);
+//    public void storeFiledata(Allfiles allfiles, MultipartFile file) {
+//   Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+//     String username="";
+//     if (authentication != null){
+//         Object principal =authentication.getPrincipal();
+//         if(principal instanceof Web_Users){
+//             username=((Web_Users)principal).getUsername();
+//         }else{
+//             System.out.println("error");
+//         }
+//     }
+//       String name=file.getOriginalFilename();
+//       int index=name.indexOf('.');
+//       String type=name.substring(index+1);
+//       allfiles.setFilename(name);
+//       allfiles.setType(type);
+//       allfiles.setUploadedBy(username);
+//       allfiles.setId(1);
+//       adminRepository.save(allfiles);
 
 
-
-    }
 }

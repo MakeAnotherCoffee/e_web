@@ -1,16 +1,12 @@
 package com.mwas.securityjwt106.Admin;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Builder;
 
 @Entity
-@Builder
 public class Allfiles {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+
     private int id;
     private String filename;
     private String type;
@@ -19,6 +15,14 @@ public class Allfiles {
 
     public String getFilename() {
         return filename;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setFilename(String filename) {
