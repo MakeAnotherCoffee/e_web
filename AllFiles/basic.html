@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Scanner</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #e8f1f2;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #interactive {
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 16/9;
+            border: 2px solid #3498db;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-size: 20px;
+            color: #2c3e50;
+            margin: 5px 0;
+            text-align: center;
+        }
+
+        #result {
+            font-weight: bold;
+            font-size: 24px;
+            color: #1abc9c;
+        }
+
+        #barcodeData {
+            color: #7f8c8d;
+            font-size: 18px;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #95a5a6;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            p {
+                font-size: 16px;
+            }
+
+            #result {
+                font-size: 20px;
+            }
+
+            #barcodeData {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #interactive {
+                width: 100%;
+                max-width: none;
+                border-width: 1px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+
+            #result {
+                font-size: 18px;
+            }
+
+            #barcodeData {
+                font-size: 14px;
+            }
+
+            footer {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="interactive" class="viewport"></div>
+    <p id="result">Scanning...</p>
+    <p id="barcodeData"></p>
+
+    <footer>
+        Powered by Quagga.js
+    </footer>
+
+    <script>
+        // Initialize Quagga for barcode scanning
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: document.querySelector('#interactive') // Camera feed element
+            },
+            decoder: {
+                readers: ["code_128_reader"] // Specify the barcode type you want to scan
+            }
+        }, function (err) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            Quagga.start(); // Start the scanner
+        });
+
+        // Handle the detected barcode result
+        Quagga.onDetected(function (result) {
+            let code = result.codeResult.code; // Extract the barcode number
+            let barcodeType = result.codeResult.format; // Extract the barcode format (e.g., "code_128")
+
+            // Display the barcode number
+            document.getElementById('result').innerText = "Barcode Scanned: " + code;
+
+            // Display additional information (barcode type)
+            document.getElementById('barcodeData').innerText = "Barcode Format: " + barcodeType;
+
+            // Send the scanned code to the backend (optional)
+            fetch('/scan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ barcode: code, format: barcodeType })
+            });
+        });
+    </script>
+
+</body>
+
+</html>
