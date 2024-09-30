@@ -14,7 +14,7 @@ public class Allfiles {
     private String type;
     private String Description;
     private String uploadedBy;
-
+    private String category;
     public String getFilename() {
         return filename;
     }
@@ -47,4 +47,12 @@ public class Allfiles {
     public void setUploadedBy(String uploadedBy) {
         this.uploadedBy = uploadedBy;
     }
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String description) {
+        category = category;
+    }
+
 }

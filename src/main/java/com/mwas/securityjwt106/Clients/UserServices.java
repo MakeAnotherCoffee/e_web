@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -41,6 +42,9 @@ public class UserServices {
         }
                 return fileToDownload;
             }
+
+    public List<String> getresources() {
+    }
 }
 
 

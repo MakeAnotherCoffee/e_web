@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
+import java.util.List;
 
 @Controller
 public class UserControllers {
@@ -68,5 +69,9 @@ public class UserControllers {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/getAllFiles")
+    public List<String> gettAll(){
+        return userServices.getresources();
     }
 }
