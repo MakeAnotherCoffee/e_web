@@ -12,13 +12,14 @@ public class Allfiles {
     private int id;
     private String filename;
     private String type;
-    private String Description;
+    private String description;
     private String uploadedBy;
     private String category;
+
+    // Getters and Setters
     public String getFilename() {
         return filename;
     }
-
 
     public void setFilename(String filename) {
         this.filename = filename;
@@ -33,11 +34,11 @@ public class Allfiles {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description; // Fixed case here
     }
 
     public String getUploadedBy() {
@@ -47,12 +48,12 @@ public class Allfiles {
     public void setUploadedBy(String uploadedBy) {
         this.uploadedBy = uploadedBy;
     }
+
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String description) {
-        category = category;
+    public void setCategory(String category) {  // Corrected assignment
+        this.category = category;
     }
-
 }
