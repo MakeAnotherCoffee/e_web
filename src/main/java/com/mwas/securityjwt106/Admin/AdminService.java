@@ -35,32 +35,31 @@ public class AdminService {
 
         //sep 29 2024 08:30
         //getting necessary file Data
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                username = ((UserDetails) principal).getUsername();
-            } else if (principal instanceof String) {
-                username = (String) principal;
-            } else {
-                System.out.println("Unknown principal type.");
-            }
-        } else {
-            System.out.println("User is not authenticated");
-        }
-
         int index=file.getOriginalFilename().indexOf('.');
         String fileType=file.getOriginalFilename().substring(index+1);
         allfiles.setFilename(file.getOriginalFilename());
         allfiles.setType(fileType);
-        allfiles.setUploadedBy(username);
+        allfiles.setUploadedBy(getPrincipal());
         System.out.println(username);
         adminRepository.save(allfiles);
 
         return username;
     }
 
+public String getPrincipal(){
+        String username="";
+        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null && authentication.isAuthenticated()){
+            Object principal=authentication.getPrincipal();
+            if( principal instanceof UserDetails){
+                username=((UserDetails) principal).getUsername();
+            } else if (principal instanceof String) {
+                username=(String) principal;
+            }
+
+        }
+    return username;
+}
     public void deleteFiles(String fileName) throws Exception{
         File file=new File(DIR+File.separator+fileName);
         if(!file.exists()){
@@ -69,26 +68,5 @@ public class AdminService {
             file.delete();
         }
     }
-
-//    public void storeFiledata(Allfiles allfiles, MultipartFile file) {
-//   Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
-//     String username="";
-//     if (authentication != null){
-//         Object principal =authentication.getPrincipal();
-//         if(principal instanceof Web_Users){
-//             username=((Web_Users)principal).getUsername();
-//         }else{
-//             System.out.println("error");
-//         }
-//     }
-//       String name=file.getOriginalFilename();
-//       int index=name.indexOf('.');
-//       String type=name.substring(index+1);
-//       allfiles.setFilename(name);
-//       allfiles.setType(type);
-//       allfiles.setUploadedBy(username);
-//       allfiles.setId(1);
-//       adminRepository.save(allfiles);
-
 
 }
