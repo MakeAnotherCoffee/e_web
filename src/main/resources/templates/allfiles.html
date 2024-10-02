@@ -17,8 +17,6 @@
             font-family: 'Arial', sans-serif;
             color: #333;
             margin-bottom: 40px;
-            text-align: center;
-            font-weight: bold;
         }
 
         /* Card Grid System */
@@ -30,7 +28,7 @@
 
         /* Card Styling */
         .col-md-2 {
-            flex: 0 0 19%;
+            flex: 0 0 19%;  /* Adjust to make 5 cards per row */
             max-width: 19%;
             margin-bottom: 30px;
         }
@@ -118,16 +116,6 @@
             background-color: #0056b3; /* Darker blue on hover */
         }
 
-        /* Search and Filter Styling */
-        .filter-group {
-            margin-bottom: 20px;
-        }
-
-        .filter-group input,
-        .filter-group select {
-            margin-right: 10px;
-        }
-
         /* Responsive layout for small screens */
         @media (max-width: 991px) {
             .col-md-2 {
@@ -147,17 +135,17 @@
 <body>
 
 <div class="container">
-    <h2>Downloadable Files</h2>
+    <h2 class="text-center">Downloadable Files</h2>
 
-    <!-- Search and Filter Bar -->
-    <div class="filter-group row mb-4">
+    <!-- Search Bar and Filters -->
+    <div class="row mb-4">
         <div class="col-md-4">
             <input type="text" id="searchInput" class="form-control" placeholder="Search for files..." onkeyup="filterFiles()">
         </div>
         <div class="col-md-4">
             <select id="fileTypeFilter" class="form-control" onchange="filterFiles()">
                 <option value="">All File Types</option>
-                <option value="pdf">PDF</option>
+                <option value="computing">Computing</option>
                 <option value="ppt">PowerPoint</option>
                 <option value="doc">Word Document</option>
                 <option value="xls">Excel Sheet</option>
@@ -166,21 +154,25 @@
                 <option value="png">Image (PNG)</option>
             </select>
         </div>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="row mb-4">
         <div class="col-md-4">
             <select id="categoryFilter" class="form-control" onchange="filterFiles()">
                 <option value="">All Categories</option>
-                <!-- Example categories, you can populate this dynamically -->
-                <option value="documents">Documents</option>
-                <option value="images">Images</option>
-                <option value="presentations">Presentations</option>
-                <option value="spreadsheets">Spreadsheets</option>
+                <option value="computing">Computing</option>
+                <option value="Automotive engineering">Automotive engineering</option>
+                <option value="Civil Engineering">Civil Engineering</option>
+                <option value="Electrical Engineering">Electrical Engineering</option>
+                <option value="Fashion and design">Fashion and design</option>
             </select>
         </div>
     </div>
 
     <div class="row" id="fileCards">
         <!-- Iterate over each file object passed from the backend -->
-        <div class="col-md-2" th:each="file : ${all}" th:attr="data-type=${file.type}" th:attr="data-category=${file.category}">
+        <div class="col-md-2" th:each="file : ${all}" th:attr="data-type=${file.type}, data-category=${file.category}">
             <div class="card">
                 <!-- Display the appropriate icon depending on the file type -->
                 <img class="card-img-top"
@@ -214,28 +206,28 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function filterFiles() {
-        const searchInput = document.getElementById('searchInput').value.toLowerCase();
-        const fileTypeFilter = document.getElementById('fileTypeFilter').value;
-        const categoryFilter = document.getElementById('categoryFilter').value;
-        const fileCards = document.querySelectorAll('#fileCards .col-md-2');
+     const searchInput = document.getElementById('searchInput').value.toLowerCase();
+     const fileTypeFilter = document.getElementById('fileTypeFilter').value;
+     const categoryFilter = document.getElementById('categoryFilter').value;
+     const fileCards = document.querySelectorAll('#fileCards .col-md-2');
 
-        fileCards.forEach(card => {
-            const title = card.querySelector('.card-title').innerText.toLowerCase();
-            const type = card.getAttribute('data-type');
-            const category = card.getAttribute('data-category');
+     fileCards.forEach(card => {
+         const title = card.querySelector('.card-title').innerText.toLowerCase();
+         const type = card.getAttribute('data-type');
+         const category = card.getAttribute('data-category');
 
-            const matchesSearch = title.includes(searchInput);
-            const matchesType = fileTypeFilter ? type === fileTypeFilter : true;
-            const matchesCategory = categoryFilter ? category === categoryFilter : true;
+         const matchesSearch = title.includes(searchInput);
+         const matchesType = fileTypeFilter ? type === fileTypeFilter : true;
+         const matchesCategory = categoryFilter ? category === categoryFilter : true;
 
-            if (matchesSearch && matchesType && matchesCategory) {
-                card.style.display = '';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
+         if (matchesSearch && matchesType && matchesCategory) {
+             card.style.display = 'block';
+         } else {
+             card.style.display = 'none';
+         }
+     });
+ }
+
 </script>
 </body>
 </html>
-add .
