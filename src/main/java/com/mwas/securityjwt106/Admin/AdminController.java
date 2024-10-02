@@ -17,10 +17,10 @@ public class AdminController {
         return "filetemplate";
     }
     @PostMapping("/addFile")
-    public void saveFile(MultipartFile file ,
+    public String saveFile(MultipartFile file ,
                          @ModelAttribute Allfiles allfiles) throws Exception {
     adminService.saveToDir(file,allfiles);
-
+    return "redirect:/getAllFiles";
     }
     @DeleteMapping("/deleteFile")
     public void deleteFile(@RequestParam("fileName") String fileName) throws Exception {
