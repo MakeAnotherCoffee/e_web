@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout - Admin Panel</title>
+    <!-- Link to FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Sidebar styling */
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: hsl(0, 0%, 22%);
+            padding: 20px;
+            transition: width 0.3s;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar h2 {
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .sidebar .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 15px;
+        }
+
+        .sidebar .profile img {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            border: 2px solid #007bff;
+        }
+
+        .sidebar a {
+            color: #ffffff;
+            padding: 15px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .sidebar a:hover {
+            background: #495057;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar i {
+            margin-right: 10px;
+            color: #007bff;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        /* Confirmation message container */
+        .logout-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logout-container h2 {
+            margin-bottom: 20px;
+            color: #495057;
+        }
+
+        .logout-container p {
+            margin-bottom: 30px;
+            color: #6c757d;
+        }
+
+        .logout-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                // If confirmed, redirect to logout endpoint
+                window.location.href = "/logout"; // Adjust this URL as needed
+            }
+        }
+    </script>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <div class="profile">
+        <img src="https://via.placeholder.com/60" alt="Admin Photo">
+        <div>
+            <strong>John Doe</strong><br>
+            <small>Administrator</small>
+        </div>
+    </div>
+    <a href="#overview" th:href="@{/overview}"><i class="fas fa-tachometer-alt"></i> Overview</a>
+    <a href="#user-management" th:href="@{/user-management}"><i class="fas fa-users"></i> User Management</a>
+    <a href="#file-management" th:href="@{/file-management}"><i class="fas fa-file-alt"></i> File Management</a>
+    <a href="#add-files" th:href="@{/add-files}"><i class="fas fa-upload"></i> Add Files</a>
+    <a href="#settings" th:href="@{/settings}"><i class="fas fa-cog"></i> Settings</a>
+    <a href="javascript:void(0);" onclick="confirmLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- Main content area -->
+<div class="content">
+    <div class="logout-container">
+        <h2>Logout</h2>
+        <p>Click the logout button to confirm your action.</p>
+        <button class="logout-button" onclick="confirmLogout()">Logout</button>
+    </div>
+</div>
+
+</body>
+</html>

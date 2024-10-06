@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional File Download Cards</title>
+    <title>File Download Cards</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Overall container styling */
+        /* Container styling */
         .container {
             max-width: 1200px;
             margin: 20px auto;
@@ -17,6 +17,56 @@
             font-family: 'Arial', sans-serif;
             color: #333;
             margin-bottom: 40px;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #007bff;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff;
+            font-size: 1rem;
+            padding: 10px 20px;
+            margin-right: 15px;
+            border-radius: 30px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: #0056b3;
+            color: #fff;
+        }
+
+        /* Search bar */
+        #searchInput {
+            width: 300px;
+            padding: 10px 15px;
+            border-radius: 30px;
+            border: none;
+            margin-right: 15px;
+        }
+
+        /* Dropdown filters */
+        .form-control {
+            padding: 10px 15px;
+            border-radius: 30px;
+            margin-right: 15px;
+            min-width: 200px;
+            border: none;
+        }
+
+        .form-control:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
         }
 
         /* Card Grid System */
@@ -113,7 +163,7 @@
         }
 
         .btn-download:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3;
         }
 
         /* Responsive layout for small screens */
@@ -129,52 +179,69 @@
                 flex: 0 0 100%;
                 max-width: 100%;
             }
+
+            /* Make search input and dropdown full width */
+            #searchInput, .form-control {
+                width: 100%;
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
+<!-- Navbar with Search and Filter -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">File Downloads</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+        <!-- Search Bar -->
+        <input type="text" id="searchInput" class="form-control" placeholder="Search files..." onkeyup="filterFiles()">
+
+        <!-- Dropdown Filters -->
+        <ul class="navbar-nav ml-auto">
+            <!-- File Type Filter -->
+            <li class="nav-item">
+                <select id="fileTypeFilter" class="form-control" onchange="filterFiles()">
+                    <option value="">All File Types</option>
+                    <option value="computing">Computing</option>
+                    <option value="ppt">PowerPoint</option>
+                    <option value="doc">Word Document</option>
+                    <option value="xls">Excel Sheet</option>
+                    <option value="txt">Text File</option>
+                    <option value="jpg">Image (JPG)</option>
+                    <option value="png">Image (PNG)</option>
+                </select>
+            </li>
+
+            <!-- Category Filter -->
+            <li class="nav-item">
+                <select id="categoryFilter" class="form-control" onchange="filterFiles()">
+                    <option value="">All Categories</option>
+                    <option value="computing">Computing</option>
+                    <option value="Automotive engineering">Automotive engineering</option>
+                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option value="Electrical Engineering">Electrical Engineering</option>
+                    <option value="Fashion and design">Fashion and design</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Container for cards -->
 <div class="container">
     <h2 class="text-center">Downloadable Files</h2>
-
-    <!-- Search Bar and Filters -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search for files..." onkeyup="filterFiles()">
-        </div>
-        <div class="col-md-4">
-            <select id="fileTypeFilter" class="form-control" onchange="filterFiles()">
-                <option value="">All File Types</option>
-                <option value="computing">Computing</option>
-                <option value="ppt">PowerPoint</option>
-                <option value="doc">Word Document</option>
-                <option value="xls">Excel Sheet</option>
-                <option value="txt">Text File</option>
-                <option value="jpg">Image (JPG)</option>
-                <option value="png">Image (PNG)</option>
-            </select>
-        </div>
-    </div>
-
-    <!-- Category Filter -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <select id="categoryFilter" class="form-control" onchange="filterFiles()">
-                <option value="">All Categories</option>
-                <option value="computing">Computing</option>
-                <option value="Automotive engineering">Automotive engineering</option>
-                <option value="Civil Engineering">Civil Engineering</option>
-                <option value="Electrical Engineering">Electrical Engineering</option>
-                <option value="Fashion and design">Fashion and design</option>
-            </select>
-        </div>
-    </div>
 
     <div class="row" id="fileCards">
         <!-- Iterate over each file object passed from the backend -->
         <div class="col-md-2" th:each="file : ${all}" th:attr="data-type=${file.type}, data-category=${file.category}">
             <div class="card">
-                <!-- Display the appropriate icon depending on the file type -->
                 <img class="card-img-top"
                      th:src="${file.type == 'pdf' ? '/images/pdf.png' :
                file.type == 'ppt' || file.type == 'pptx' ? '/images/ppt.png' :
@@ -183,51 +250,50 @@
                file.type == 'txt' ? '/images/txt.png' :
                file.type == 'jpg' || file.type == 'jpeg' || file.type == 'png' ? '/images/img.png' :
                '/images/unknown.png'
-               }"
-                     alt="File Icon">
+               }" alt="File Icon">
 
                 <div class="card-body">
                     <h5 class="card-title" th:text="${file.filename}">File Name</h5>
-                    <p class="card-text">Category: <span th:text="${file.category}">Category</span></p>
+                    <p class="card-text">Category: <span th:text="${file.category}">Computing</span></p>
                 </div>
+
                 <div class="card-body-hidden">
-                    <p>Uploaded By: <span th:text="${file.uploadedBy}">Uploader Name</span></p>
-                    <p>Description: <span th:text="${file.description}">File description goes here.</span></p>
-                    <p>Type: <span th:text="${file.type}">File Type</span></p>
-                    <a th:href="@{'/user/download/' + ${file.filename}}" class="btn-download">Download</a>
+                    <p th:text="${file.description}">Description</p>
+                    <a href="#" class="btn-download" th:href="@{'/user/download/' + ${file.filename}}">Download</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS and jQuery for interactivity -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // JS filter function for files
     function filterFiles() {
-     const searchInput = document.getElementById('searchInput').value.toLowerCase();
-     const fileTypeFilter = document.getElementById('fileTypeFilter').value;
-     const categoryFilter = document.getElementById('categoryFilter').value;
-     const fileCards = document.querySelectorAll('#fileCards .col-md-2');
+        let searchInput = document.getElementById('searchInput').value.toLowerCase();
+        let fileTypeFilter = document.getElementById('fileTypeFilter').value;
+        let categoryFilter = document.getElementById('categoryFilter').value;
+        let fileCards = document.getElementById('fileCards').getElementsByClassName('col-md-2');
 
-     fileCards.forEach(card => {
-         const title = card.querySelector('.card-title').innerText.toLowerCase();
-         const type = card.getAttribute('data-type');
-         const category = card.getAttribute('data-category');
+        for (let i = 0; i < fileCards.length; i++) {
+            let card = fileCards[i];
+            let fileType = card.getAttribute('data-type');
+            let fileCategory = card.getAttribute('data-category').toLowerCase();
+            let fileName = card.querySelector('.card-title').textContent.toLowerCase();
 
-         const matchesSearch = title.includes(searchInput);
-         const matchesType = fileTypeFilter ? type === fileTypeFilter : true;
-         const matchesCategory = categoryFilter ? category === categoryFilter : true;
-
-         if (matchesSearch && matchesType && matchesCategory) {
-             card.style.display = 'block';
-         } else {
-             card.style.display = 'none';
-         }
-     });
- }
-
+            if ((fileName.includes(searchInput) || searchInput === '') &&
+                (fileType === fileTypeFilter || fileTypeFilter === '') &&
+                (fileCategory.includes(categoryFilter.toLowerCase()) || categoryFilter === '')) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+    }
 </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

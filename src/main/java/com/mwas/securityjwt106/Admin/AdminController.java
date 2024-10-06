@@ -22,6 +22,9 @@ public class AdminController {
     adminService.saveToDir(file,allfiles);
     return "redirect:/getAllFiles";
     }
+
+    //work on the redirect
+
     @DeleteMapping("/deleteFile")
     public void deleteFile(@RequestParam("fileName") String fileName) throws Exception {
     adminService.deleteFiles(fileName);

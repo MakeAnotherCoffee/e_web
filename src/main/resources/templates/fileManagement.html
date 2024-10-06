@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Admin Panel</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: hsl(0, 0%, 22%);
+            padding: 20px;
+            transition: width 0.3s;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar h2 {
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .sidebar .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 15px;
+        }
+
+        .sidebar .profile img {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            border: 2px solid #007bff; /* Profile picture border */
+        }
+
+        .sidebar a {
+            color: #ffffff;
+            padding: 15px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+            margin-bottom: 15px; /* Increased space between items */
+            font-size: 1rem;
+        }
+
+        .sidebar a:hover {
+            background: #495057;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar i {
+            margin-right: 10px;
+            color: #007bff; /* Icon color set to blue */
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+        }
+
+        table {
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <div class="profile">
+        <img src="https://via.placeholder.com/60" alt="Admin Photo">
+        <div>
+            <strong>John Doe</strong><br>
+            <small>Administrator</small>
+        </div>
+    </div>
+    <a href="#overview" onclick="showSection('overview')"><i class="fas fa-tachometer-alt"></i>Overview</a>
+    <a href="#user-management" onclick="showSection('user-management')"><i class="fas fa-users"></i>User Management</a>
+    <a href="#file-management" onclick="showSection('file-management')"><i class="fas fa-file-alt"></i>File Management</a>
+    <a href="#add-files" onclick="showSection('add-files')"><i class="fas fa-upload"></i>Add Files</a>
+    <a href="#settings" onclick="showSection('settings')"><i class="fas fa-cog"></i>Settings</a>
+    <a href="#logout" onclick="showSection('logout')"><i class="fas fa-sign-out-alt"></i>Logout</a>
+</div>
+
+<div class="content">
+    <header class="navbar d-flex justify-content-between align-items-center text-white">
+        <h1>File Management</h1>
+    </header>
+
+    <main>
+        <section id="file-management">
+            <div class="container">
+                <div class="search-container">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search files..." onkeyup="searchFiles()">
+                </div>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="file-table-body">
+                    <tr>
+                        <td>1</td>
+                        <td>Document 1</td>
+                        <td>Sample description 1</td>
+                        <td>Category A</td>
+                        <td>
+                            <button class="btn btn-warning" onclick="openEditModal(1)">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteFile(1)">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Document 2</td>
+                        <td>Sample description 2</td>
+                        <td>Category B</td>
+                        <td>
+                            <button class="btn btn-warning" onclick="openEditModal(2)">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteFile(2)">Delete</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Edit File Modal -->
+    <div class="modal fade" id="editFileModal" tabindex="-1" role="dialog" aria-labelledby="editFileModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editFileModalLabel">Edit File</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-file-form" method="POST">
+                        <div class="form-group">
+                            <label for="fileName">File Name</label>
+                            <input type="text" class="form-control" id="fileName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fileDescription">Description</label>
+                            <input type="text" class="form-control" id="fileDescription" name="description" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fileCategory">Category</label>
+                            <input type="text" class="form-control" id="fileCategory" name="category" required>
+                        </div>
+                        <input type="hidden" id="fileId" name="id">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function openEditModal(fileId) {
+        // Fetch file details from backend using fileId
+        $('#fileName').val('Document ' + fileId);
+        $('#fileDescription').val('Sample description ' + fileId);
+        $('#fileCategory').val('Category ' + String.fromCharCode(64 + fileId)); // A, B, C...
+        $('#fileId').val(fileId);
+        $('#editFileModal').modal('show');
+    }
+
+    function deleteFile(fileId) {
+        if (confirm("Are you sure you want to delete this file?")) {
+            // Implement the actual delete logic here
+            alert('File ' + fileId + ' deleted.');
+            // Reload the table or remove the row
+        }
+    }
+
+    function searchFiles() {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        const rows = document.querySelectorAll("#file-table-body tr");
+        rows.forEach(row => {
+            const cells = row.getElementsByTagName("td");
+            const found = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(input));
+            row.style.display = found ? "" : "none";
+        });
+    }
+</script>
+</body>
+</html>

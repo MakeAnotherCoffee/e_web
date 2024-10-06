@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Admin Panel</title>
+    <!-- Link to FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Sidebar styling */
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: hsl(0, 0%, 22%);
+            padding: 20px;
+            transition: width 0.3s;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar h2 {
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .sidebar .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 15px;
+        }
+
+        .sidebar .profile img {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            border: 2px solid #007bff;
+        }
+
+        .sidebar a {
+            color: #ffffff;
+            padding: 15px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .sidebar a:hover {
+            background: #495057;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar i {
+            margin-right: 10px;
+            color: #007bff;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        /* Form container */
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="password"],
+        .form-container input[type="email"],
+        .form-container select {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9; /* Light gray background for disabled fields */
+            cursor: not-allowed; /* Change cursor to indicate disabled state */
+        }
+
+        .form-container input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed; /* Change cursor to indicate disabled state */
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: #0056b3; /* No hover effect on disabled button */
+        }
+
+        .coming-soon {
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 50px 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #495057;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <div class="profile">
+        <img src="https://via.placeholder.com/60" alt="Admin Photo">
+        <div>
+            <strong>John Doe</strong><br>
+            <small>Administrator</small>
+        </div>
+    </div>
+    <a href="#overview" th:href="@{/overview}"><i class="fas fa-tachometer-alt"></i> Overview</a>
+    <a href="#user-management" th:href="@{/user-management}"><i class="fas fa-users"></i> User Management</a>
+    <a href="#file-management" th:href="@{/file-management}"><i class="fas fa-file-alt"></i> File Management</a>
+    <a href="#add-files" th:href="@{/add-files}"><i class="fas fa-upload"></i> Add Files</a>
+    <a href="#settings" th:href="@{/settings}" class="active"><i class="fas fa-cog"></i> Settings</a>
+    <a href="#logout" th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- Main content area -->
+<div class="content">
+    <div class="form-container">
+        <h2>Account Settings</h2>
+        <form th:action="@{/settings/update}" method="POST">
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" th:value="${user.username}" disabled required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" th:value="${user.email}" disabled required>
+
+            <label for="password">Change Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter new password" disabled required>
+
+            <label for="language">Preferred Language:</label>
+            <select id="language" name="language" disabled>
+                <option value="en" th:selected="${user.language == 'en'}">English</option>
+                <option value="fr" th:selected="${user.language == 'fr'}">French</option>
+                <option value="es" th:selected="${user.language == 'es'}">Spanish</option>
+            </select>
+
+            <label for="notifications">Email Notifications:</label>
+            <select id="notifications" name="notifications" disabled>
+                <option value="enabled" th:selected="${user.notifications == 'enabled'}">Enabled</option>
+                <option value="disabled" th:selected="${user.notifications == 'disabled'}">Disabled</option>
+            </select>
+
+            <input type="submit" value="Save Settings" disabled>
+        </form>
+    </div>
+
+    <!-- Coming Soon Section -->
+    <div class="coming-soon">
+        <h3>New Settings Features Coming Soon!</h3>
+        <p>We are working on adding more options to customize your experience. Stay tuned for upcoming updates.</p>
+    </div>
+</div>
+
+</body>
+</html>
