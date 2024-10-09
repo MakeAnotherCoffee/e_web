@@ -209,7 +209,7 @@
             <li class="nav-item">
                 <select id="fileTypeFilter" class="form-control" onchange="filterFiles()">
                     <option value="">All File Types</option>
-                    <option value="computing">Computing</option>
+                    <option value="pdf">PDF</option>
                     <option value="ppt">PowerPoint</option>
                     <option value="doc">Word Document</option>
                     <option value="xls">Excel Sheet</option>
@@ -224,10 +224,9 @@
                 <select id="categoryFilter" class="form-control" onchange="filterFiles()">
                     <option value="">All Categories</option>
                     <option value="computing">Computing</option>
-                    <option value="Automotive engineering">Automotive engineering</option>
-                    <option value="Civil Engineering">Civil Engineering</option>
-                    <option value="Electrical Engineering">Electrical Engineering</option>
-                    <option value="Fashion and design">Fashion and design</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="design">Design</option>
+                    <option value="business">Business</option>
                 </select>
             </li>
         </ul>
@@ -254,7 +253,7 @@
 
                 <div class="card-body">
                     <h5 class="card-title" th:text="${file.filename}">File Name</h5>
-                    <p class="card-text">Category: <span th:text="${file.category}">Computing</span></p>
+                    <p class="card-text">Category: <span th:text="${file.category}">Category</span></p>
                 </div>
 
                 <div class="card-body-hidden">
@@ -268,32 +267,32 @@
 
 <script>
     // JS filter function for files
-    function filterFiles() {
-        let searchInput = document.getElementById('searchInput').value.toLowerCase();
-        let fileTypeFilter = document.getElementById('fileTypeFilter').value;
-        let categoryFilter = document.getElementById('categoryFilter').value;
-        let fileCards = document.getElementById('fileCards').getElementsByClassName('col-md-2');
+function filterFiles() {
+    let searchInput = document.getElementById('searchInput').value.toLowerCase();
+    let fileTypeFilter = document.getElementById('fileTypeFilter').value.toLowerCase();
+    let categoryFilter = document.getElementById('categoryFilter').value.toLowerCase();
+    let fileCards = document.getElementById('fileCards').getElementsByClassName('col-md-2');
 
-        for (let i = 0; i < fileCards.length; i++) {
-            let card = fileCards[i];
-            let fileType = card.getAttribute('data-type');
-            let fileCategory = card.getAttribute('data-category').toLowerCase();
-            let fileName = card.querySelector('.card-title').textContent.toLowerCase();
+    for (let i = 0; i < fileCards.length; i++) {
+        let fileType = fileCards[i].getAttribute('data-type').toLowerCase();
+        let category = fileCards[i].getAttribute('data-category').toLowerCase();
+        let fileName = fileCards[i].getElementsByClassName('card-title')[0].innerText.toLowerCase();
 
-            if ((fileName.includes(searchInput) || searchInput === '') &&
-                (fileType === fileTypeFilter || fileTypeFilter === '') &&
-                (fileCategory.includes(categoryFilter.toLowerCase()) || categoryFilter === '')) {
-                card.style.display = '';
-            } else {
-                card.style.display = 'none';
-            }
+        if (
+            (fileTypeFilter === '' || fileType.includes(fileTypeFilter)) &&
+            (categoryFilter === '' || category.includes(categoryFilter)) &&
+            (fileName.includes(searchInput))
+        ) {
+            fileCards[i].style.display = 'block';
+        } else {
+            fileCards[i].style.display = 'none';
         }
     }
+}
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </body>
 </html>

@@ -1,4 +1,6 @@
 package com.mwas.securityjwt106.Admin;
+import com.mwas.securityjwt106.Clients.UserRepository;
+import com.mwas.securityjwt106.Clients.Web_Users;
 import org.apache.tomcat.util.http.fileupload.InvalidFileNameException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -11,10 +13,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Objects;
 
 @Service
 public class AdminService {
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private AdminRepository adminRepository;
     public static final String DIR="./AllFiles";
@@ -69,4 +74,8 @@ public String getPrincipal(){
         }
     }
 
+    public int getAllUsers() {
+        List<Web_Users> allUsers=userRepository.findAll();
+        return  allUsers.size();
+    }
 }

@@ -170,7 +170,7 @@
 <div class="content">
     <div class="form-container">
         <h2>Add New File</h2>
-        <form th:action="@{/upload}" method="POST" enctype="multipart/form-data">
+        <form th:action="@{/addFile}" method="POST" enctype="multipart/form-data">
             <label for="file">Choose file to upload:</label>
             <input type="file" id="file" name="file" required>
 
@@ -180,11 +180,11 @@
             <label for="category">Select Category:</label>
             <select id="category" name="category" required>
                 <option value="" disabled selected>-- Select a Category --</option>
-                <option th:value="documents" th:text="#{category.documents}">Documents</option>
-                <option th:value="images" th:text="#{category.images}">Images</option>
-                <option th:value="videos" th:text="#{category.videos}">Videos</option>
-                <option th:value="audios" th:text="#{category.audios}">Audios</option>
-                <option th:value="others" th:text="#{category.others}">Others</option>
+                <option th:value="Electrical" th:text="#{category.Electrical}">Electrical</option>
+                <option th:value="ICT" th:text="#{category.ICT}">ICT</option>
+                <option th:value="Fashion" th:text="#{category.Fashion}">Fashion and Design</option>
+                <option th:value="CivilEngineering" th:text="#{category.CivilEngineering}">Civil Engineering</option>
+                <option th:value="BuildingandConstruction" th:text="#{category.BuildingandConstruction}">Building and Construction</option>
             </select>
 
             <input type="submit" value="Upload File">

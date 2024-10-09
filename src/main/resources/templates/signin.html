@@ -22,7 +22,7 @@
             height: 100%;
         }
         .form-container {
-        margin-top:270px;
+            margin-top: 270px;
             background: #fff;
             padding: 40px;
             border-radius: 10px;
@@ -83,12 +83,21 @@
         .form-container .form-switch a:hover {
             text-decoration: underline;
         }
+        .error-message {
+            color: red; /* Style for error messages */
+            margin-bottom: 16px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <div class="form-wrapper">
     <div id="login-form" class="form-container">
         <h1>Login</h1>
+
+        <!-- Error message display -->
+        <div th:if="${session.errorMessage}" class="error-message" th:text="${session.errorMessage}"></div>
+
         <form th:action="@{/signin}" method="post">
             <div>
                 <label for="username">Username</label>
@@ -101,43 +110,43 @@
             <button type="submit">Login</button>
         </form>
         <div class="form-switch">
-            <p>Don't have an account? <a href="/signup" >Create one</a></p>
+            <p>Don't have an account? <a href="/signup">Create one</a></p>
         </div>
     </div>
 
-        <div id="signup-form" class="form-container hidden">
-            <h1>Signup</h1>
-            <form th:action="@{/register}" method="post">
-                <div>
-                    <label for="new-username">Username</label>
-                    <input type="text" id="new-username" name="username" placeholder="Enter your username" required>
-                </div>
-                <div>
-                    <label for="new-password">Password</label>
-                    <input type="password" id="new-password" name="password" placeholder="Enter your password" required>
-                </div>
-
-                <button type="submit">Signup</button>
-            </form>
-            <div class="form-switch">
-                <p>Already have an account? <a href="#" onclick="toggleForm()">Login</a></p>
+    <div id="signup-form" class="form-container hidden">
+        <h1>Signup</h1>
+        <form th:action="@{/register}" method="post">
+            <div>
+                <label for="new-username">Username</label>
+                <input type="text" id="new-username" name="username" placeholder="Enter your username" required>
             </div>
+            <div>
+                <label for="new-password">Password</label>
+                <input type="password" id="new-password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit">Signup</button>
+        </form>
+        <div class="form-switch">
+            <p>Don't have an account? <a href="/signup" onclick="toggleForm()">Login</a></p>
         </div>
+    </div>
 </div>
 
-<!--<script>-->
-<!--    function toggleForm() {-->
-<!--        var loginForm = document.getElementById('login-form');-->
-<!--        var signupForm = document.getElementById('signup-form');-->
+<script>
+    function toggleForm() {
+        var loginForm = document.getElementById('login-form');
+        var signupForm = document.getElementById('signup-form');
 
-<!--        if (loginForm.classList.contains('hidden')) {-->
-<!--            loginForm.classList.remove('hidden');-->
-<!--            signupForm.classList.add('hidden');-->
-<!--        } else {-->
-<!--            loginForm.classList.add('hidden');-->
-<!--            signupForm.classList.remove('hidden');-->
-<!--        }-->
-<!--    }-->
-<!--</script>-->
+        if (loginForm.classList.contains('hidden')) {
+            loginForm.classList.remove('hidden');
+            signupForm.classList.add('hidden');
+        } else {
+            loginForm.classList.add('hidden');
+            signupForm.classList.remove('hidden');
+        }
+    }
+</script>
 </body>
 </html>

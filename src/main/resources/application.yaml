@@ -18,3 +18,8 @@ spring:
       suffix: .html
       mode: HTML
       cache: false
+
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
